@@ -40,6 +40,14 @@ INSTALLED_APPS = [
     'apps.GTE'
 ]
 
+THIRD_APPS = [
+    'django_extensions',
+    'rest_framework',
+    'rest_framework.authtoken',
+    'rest_auth',
+    'corsheaders',
+]
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -55,7 +63,10 @@ ROOT_URLCONF = 'myproject.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [
+            BASE_DIR / 'base_templates',
+            BASE_DIR / 'base_static'
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
