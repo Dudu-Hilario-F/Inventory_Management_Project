@@ -1,5 +1,8 @@
 from django.db import models
 from django.core.validators import MinValueValidator, MaxValueValidator
+import re
+from django.core.exceptions import ValidationError
+from .utils import check_email
 
 
 class Sector(models.Model):
@@ -47,8 +50,6 @@ class Sector(models.Model):
     def __str__(self):
         return self.sector
     
-
-
 class Camaras(models.Model):
 
     # Opções para o campo 'operation_status'
@@ -137,9 +138,7 @@ class Camaras(models.Model):
     # Class Method
     def __str__(self):
         return self.name
-
-
-
+    
 class Category(models.Model):
     class CategoryOperation(models.TextChoices):
         DAIRY_PRODUCTS = "Laticinios", "Laticinios"
@@ -179,3 +178,77 @@ class Category(models.Model):
         verbose_name= "Atualizado em"
     )
 
+
+    def __str__(self):
+        return self.name
+
+class Fornecedores(models.Model):
+    class StatusFornecedor(models.TextChoices):
+        ACTIVE = "Ativo", "Ativo"
+        DISABLED = "Inativo", "Inativo"
+    
+    code = models.IntegerField(
+        primary_key=True, 
+        unique=True,
+        help_text="Codigo do fornecedores",
+        db_index=True,
+        verbose_name="Codigo"
+    
+    )
+
+    name = models.CharField(
+        unique=True, 
+        max_length=100,
+        help_text="Nome",
+        verbose_name="Nome Fornecedor",
+    )
+
+    email = models.EmailField(
+        max_length=254, 
+        unique=True, 
+        verbose_name="E-mail"
+    )
+
+    cnpj = models.CharField(
+        max_length=18,
+        help_text="CNPJ",
+        verbose_name="CNPJ",
+        unique=True,
+        validators= [check_email()]
+    )
+
+    status = models.CharField(
+        max_length=20,
+        choices=StatusFornecedor.choices,
+        editable=True, 
+        default=StatusFornecedor.DISABLED
+           
+    )
+
+
+    # Foreign keyForeign key
+    category = models.ForeignKey(
+        Category,
+        on_delete=models.CASCADE,
+    )
+
+
+
+class Filial(models.Model):
+    pass
+
+class EnderecoFornecedor(models.Model):
+    pass
+
+class EnderecoFilial(models.Model):
+    pass
+
+class RecebimentoCarne(models.Model):
+    pass
+
+
+class AnaliseCarne(models.Model):
+    pass
+
+class Produtos(models.Model):
+    pass

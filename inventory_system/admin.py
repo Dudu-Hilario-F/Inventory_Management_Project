@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Camaras, Category, Sector
+from .models import Camaras, Category, Sector, Fornecedores
 
 
 @admin.register(Sector)
@@ -37,4 +37,22 @@ class CamarasAdmin(admin.ModelAdmin):
         'name',
         'operation_status'
     
+    )
+
+@admin.register(Category)
+class CategoryAdmin(admin.ModelAdmin):
+    list_display = (
+        'code', 
+        'name', 
+        'description',
+    )
+
+@admin.register(Fornecedores)
+class FornecedorAdmin(admin.ModelAdmin):
+    list_display = (
+        'code', 
+        'name', 
+        'email', 
+        'cnpj', 
+        'status',
     )
