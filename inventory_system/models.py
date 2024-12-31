@@ -2,7 +2,7 @@ from django.db import models
 from django.core.validators import MinValueValidator, MaxValueValidator
 import re
 from django.core.exceptions import ValidationError
-from .utils import check_email
+
 
 
 class Sector(models.Model):
@@ -133,6 +133,7 @@ class Camaras(models.Model):
     ID_Sector = models.ForeignKey(
         Sector,
         on_delete=models.CASCADE,
+        db_index=False
     )
 
     # Class Method
@@ -214,7 +215,6 @@ class Fornecedores(models.Model):
         help_text="CNPJ",
         verbose_name="CNPJ",
         unique=True,
-        validators= [check_email()]
     )
 
     status = models.CharField(
